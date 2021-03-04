@@ -4,7 +4,7 @@
 
 int main( void ) {
 
-  char *s = "(1 #t (\"blub\"))";
+  const char *s = "(1 #t (\"blub\"))";
   se_t *r = NULL;
 
   switch( se_parse_string( &r, s ) ) {

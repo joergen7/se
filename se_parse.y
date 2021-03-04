@@ -23,7 +23,7 @@ typedef enum {
   SE_PARSE_ERROR_MEM
 } se_parse_t;
 
-se_parse_t se_parse_string( se_t **result, char *s );
+se_parse_t se_parse_string( se_t **result, const char *s );
 }
 
 %union {
@@ -68,7 +68,7 @@ static void seerror( YYLTYPE *loc, yyscan_t scanner, se_t **result, const char *
   ( void )msg;
 }
 
-se_parse_t se_parse_string( se_t **result, char *s ) {
+se_parse_t se_parse_string( se_t **result, const char *s ) {
   yyscan_t scanner;
   selex_init( &scanner );
   se_scan_string( s, scanner );

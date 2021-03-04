@@ -8,35 +8,35 @@ static void se_print_list( se_t *e );
 static void se_print_str( se_t *e );
 
 se_t *se_bool( bool value ) {
-  se_t *r = malloc( sizeof( se_t ) );
+  se_t *r = ( se_t * )malloc( sizeof( se_t ) );
   r->type = SE_TYPE_BOOL;
   r->data.bool_value = value;
   return r;
 }
 
 se_t *se_int( long value ) {
-  se_t *r = malloc( sizeof( se_t ) );
+  se_t *r = ( se_t * )malloc( sizeof( se_t ) );
   r->type = SE_TYPE_INT;
   r->data.int_value = value;
   return r;
 }
 
 se_t *se_str( char *value ) {
-  se_t *r = malloc( sizeof( se_t ) );
+  se_t *r = ( se_t * )malloc( sizeof( se_t ) );
   r->type = SE_TYPE_STR;
   r->data.str_value = value;
   return r;
 }
 
 se_t *se_nil() {
-  se_t *r = malloc( sizeof( se_t ) );
+  se_t *r = ( se_t * )malloc( sizeof( se_t ) );
   r->type = SE_TYPE_NIL;
   return r;
 }
 
 se_t *se_cons( se_t *car, se_t *cdr )
  {
-  se_t *r = malloc( sizeof( se_t ) );
+  se_t *r = ( se_t * )malloc( sizeof( se_t ) );
   r->type = SE_TYPE_CONS;
   r->data.cons_value[0] = car;
   r->data.cons_value[1] = cdr;
