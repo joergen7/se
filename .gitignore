@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+dep.mk
+se_parse.c
+se_parse.h
+se_scan.c
+se_scan.h
