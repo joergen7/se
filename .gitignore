@@ -52,7 +52,10 @@ Mkfile.old
 dkms.conf
 
 dep.mk
-se_parse.c
-se_parse.h
-se_scan.c
-se_scan.h
+location.hh
+position.hh
+se.lex.cc
+se.lex.hh
+se.tab.cc
+se.tab.hh
+stack.hh
