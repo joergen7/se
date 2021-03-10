@@ -16,6 +16,9 @@
  * limitations under the License.
  */
 
+#ifndef __se__
+#define __se__
+
 #include <memory>
 #include <string>
 #include <stdexcept>
@@ -93,3 +96,5 @@ namespace se
 
   std::unique_ptr<exp> parse( const std::string& s );
 }
+
+#endif
