@@ -1,37 +1,39 @@
-GOAL    := a.out
-CC      := gcc-10
-LDFLAGS :=
-SRC     := se_scan.c se_parse.c se.c main.c
-LEX     := flex
-LFLAGS  :=
-YACC    := bison
-YFLAGS  :=
-CFLAGS  := -Wall -Wextra -pedantic -Wno-unused-function
-DEPFILE := dep.mk
+CXX      := g++-10
+CXXFLAGS := -Wall -Wextra -pedantic -std=c++20
+LDLIBS   :=
+LEX      := flex
+LFLAGS   :=
+YACC     := bison
+YFLAGS   :=
+
+GOAL     := a.out
+SRC      := se.cc main.cc se.tab.cc se.lex.cc
+DEPFILE  := dep.mk
 
 .PHONY : all
 all : $(GOAL)
 
 .PHONY : clean
 clean :
-	$(RM) *.o
-	$(RM) se_scan.c se_scan.h
-	$(RM) se_parse.c se_parse.h
 	$(RM) $(GOAL)
+	$(RM) *.o
+	$(RM) se.tab.*
+	$(RM) se.lex.*
+	$(RM) location.hh
+	$(RM) stack.hh
+	$(RM) position.hh
 	$(RM) $(DEPFILE)
 
-$(GOAL) : $(SRC:%.c=%.o)
-	$(CC) -o $@ $(LDFLAGS) $^
+$(GOAL): $(SRC:%.cc=%.o)
+	$(CXX) -o $@ $(LDLIBS) $^
 
-se_scan.c se_scan.h &: se_scan.l se_parse.h
-	$(LEX) -o se_scan.c $(LFLAGS) --header-file=$(@:%.c=%.h) $<
+se.tab.cc se.tab.hh locations.hh stack.hh position.hh &: se.yy
+	$(YACC) -d $(YFLAGS) $<
 
-se_parse.c se_parse.h &: se_parse.y
-	$(YACC) -o se_parse.c $(YFLAGS) -d $<
+se.lex.cc se.lex.hh &: se.ll
+	$(LEX) -o se.lex.cc --header-file=se.lex.hh $(LFLAGS) $<
 
-$(DEPFILE) : $(SRC)
-	$(CC) -o $@ -MM -MG $^
+$(DEPFILE): $(SRC)
+	$(CXX) -o $@ -MM -MG $^
 
 include $(DEPFILE)
-
-
