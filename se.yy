@@ -85,9 +85,19 @@ namespace se
     maybe_error.emplace( parse_error { loc.begin.line, msg } );
   }
 
-  std::unique_ptr<exp> parse( const std::string& s ) {
+  std::unique_ptr<exp> parse( const std::string& s )
+  {
+    
     yyscan_t scanner;
-    selex_init( &scanner );
+
+    switch( selex_init( &scanner ) )
+    {
+      case 0      : break;
+      case ENOMEM : throw std::runtime_error( "out of memory" );
+      case EINVAL : throw std::runtime_error( "invalid argument to selex_init(1)" );
+      default     : throw std::runtime_error( "selex_init(1) failed" );
+    }
+
     se_scan_string( s.c_str(), scanner );
 
     std::optional<std::unique_ptr<exp>> maybe_exp {};
@@ -96,7 +106,13 @@ namespace se
     parser p { scanner, maybe_exp, maybe_error };
     int r = p.parse();
 
-    selex_destroy( scanner );
+    switch( selex_destroy( scanner ) )
+    {
+      case 0      : break;
+      case ENOMEM : throw std::runtime_error( "out of memory" );
+      case EINVAL : throw std::runtime_error( "invalid argument to selex_destroy(1)" );
+      default     : throw std::runtime_error( "selex_destroy(1) failed" );
+    }
 
     if( r == 1 )
       throw maybe_error.value();
